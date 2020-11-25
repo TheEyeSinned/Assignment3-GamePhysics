@@ -23,8 +23,7 @@ public:
 private:
 	Label* m_pStartLabel{};
 	Label* m_pInstructionsLabel{};
-
-	Ship* m_pShip{};
+	Label* m_pNamesLabel{};
 
 	Button* m_pStartButton;
 };

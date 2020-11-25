@@ -15,6 +15,7 @@ PlayScene::~PlayScene()
 
 void PlayScene::draw()
 {
+	TextureManager::Instance()->draw("background", 400, 300, 0, 255, true);
 	drawDisplayList();
 }
 
@@ -78,6 +79,8 @@ void PlayScene::handleEvents()
 
 void PlayScene::start()
 {
+	TextureManager::Instance()->load("../Assets/textures/Background.png", "background");
+
 	// Player Sprite
 	m_pPlayer = new Player();
 	addChild(m_pPlayer);
