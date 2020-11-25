@@ -31,8 +31,19 @@ void EndScene::handleEvents()
 {
 	EventManager::Instance().update();
 
-	// Button Events
-	m_pRestartButton->update();
+	EventManager::Instance().update();
+
+	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_A))
+	{
+		m_pBrick->moveLeft();
+	}
+	else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_D))
+	{
+		m_pBrick->moveRight();
+	}
+	else {
+		m_pBrick->stopMovingX();
+	}
 
 	// Keyboard Events
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_ESCAPE))
@@ -48,29 +59,11 @@ void EndScene::handleEvents()
 
 void EndScene::start()
 {
-	const SDL_Color blue = { 0, 0, 255, 255 };
-	m_label = new Label("END SCENE", "Dock51", 80, blue, glm::vec2(400.0f, 40.0f));
-	m_label->setParent(this);
-	addChild(m_label);
+	TextureManager::Instance()->load("../Assets/textures/Background.png", "background");
 
-	// Restart Button
-	m_pRestartButton = new Button("../Assets/textures/restartButton.png", "restartButton", RESTART_BUTTON);
-	m_pRestartButton->getTransform()->position = glm::vec2(400.0f, 400.0f);
-	m_pRestartButton->addEventListener(CLICK, [&]()-> void
-	{
-		m_pRestartButton->setActive(false);
-		TheGame::Instance()->changeSceneState(PLAY_SCENE);
-	});
+	// Player Sprite
+	m_pBrick = new Brick();
+	addChild(m_pBrick);
 
-	m_pRestartButton->addEventListener(MOUSE_OVER, [&]()->void
-	{
-		m_pRestartButton->setAlpha(128);
-	});
-
-	m_pRestartButton->addEventListener(MOUSE_OUT, [&]()->void
-	{
-		m_pRestartButton->setAlpha(255);
-	});
-
-	addChild(m_pRestartButton);
+	
 }

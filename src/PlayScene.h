@@ -3,7 +3,6 @@
 #define __PLAY_SCENE__
 
 #include "Scene.h"
-#include "Plane.h"
 #include "Player.h"
 #include "Button.h"
 #include "Bullet.h"
@@ -29,7 +28,6 @@ private:
 
 	BulletPool* m_pPool;
 
-	Plane* m_pPlaneSprite;
 	Player* m_pPlayer;
 
 	Button* m_pBackButton;

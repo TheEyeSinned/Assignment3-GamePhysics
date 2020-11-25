@@ -1,26 +1,22 @@
 #pragma once
-#ifndef __PLAYER__
-#define __PLAYER__
+#ifndef __BRICK__
+#define __BRICK__
 
 #include "Sprite.h"
-#include "Label.h"
 
-class Player final : public Sprite
+class Brick final : public Sprite
 {
 public:
-	Player();
-	~Player();
+	Brick();
+	~Brick();
 
-	// Life Cycle Methods
+	// Life Cycle Functions
 	virtual void draw() override;
 	virtual void update() override;
 	virtual void clean() override;
 
 	void moveLeft();
 	void moveRight();
-	void moveUp();
-	void moveDown();
-	void stopMovingY();
 	void stopMovingX();
 
 	bool isColliding(GameObject*);
@@ -30,6 +26,7 @@ private:
 	const float ACCELERATION = 10.0f;
 	glm::vec2 m_direction;
 	void m_checkbounds();
+
 };
 
-#endif /* defined (__PLAYER__) */
+#endif /* defined (__PLANE__) */
