@@ -1,11 +1,12 @@
 #include "Player.h"
 #include "TextureManager.h"
+#include "SoundManager.h"
 #include "Util.h"
 
 Player::Player()
 {
 	TextureManager::Instance()->load("../Assets/textures/circle.png", "circle");
-	
+
 	auto size = TextureManager::Instance()->getTextureSize("circle");
 	setWidth(size.x);
 	setHeight(size.y);

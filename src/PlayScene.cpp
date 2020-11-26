@@ -22,6 +22,7 @@ PlayScene::~PlayScene()
 void PlayScene::draw()
 {
 	TextureManager::Instance()->draw("background", 400, 300, 0, 255, true);
+	
 	drawDisplayList();
 
 	if (EventManager::Instance().isIMGUIActive())
@@ -45,6 +46,11 @@ void PlayScene::update()
 		if (bullet->active && bullet->getTransform()->position.y >= 610) {
 			m_pPool->Despawn(bullet);
 			break;
+		}
+		if (bullet->active &&  m_pPlayer->isColliding(bullet)) {
+
+			m_pPool->Despawn(bullet);
+			SoundManager::Instance().playSound("boom", 0, -1);
 		}
 	}
 }
@@ -92,6 +98,10 @@ void PlayScene::start()
 {
 	TextureManager::Instance()->load("../Assets/textures/Background.png", "background");
 
+	SoundManager::Instance().load("../Assets/audio/boom.mp3", "boom", SOUND_SFX);
+	SoundManager::Instance().setSoundVolume(30);
+
+
 	// Player Sprite
 	m_pPlayer = new Player();
 	addChild(m_pPlayer);
@@ -122,6 +132,10 @@ void PlayScene::GUI_Function() const
 	//ImGui::ShowDemoWindow();
 
 	ImGui::Begin("Controls", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
+
+	if (ImGui::Button("Start Scene")) {
+		TheGame::Instance()->changeSceneState(START_SCENE);
+	}
 
 	if (ImGui::Button("Next Scene")) {
 		TheGame::Instance()->changeSceneState(END_SCENE);
