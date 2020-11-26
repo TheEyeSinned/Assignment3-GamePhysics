@@ -6,6 +6,7 @@
 #include "Label.h"
 #include "Button.h"
 #include "Brick.h"
+#include "BBall.h"
 
 class EndScene final : public Scene
 {
@@ -21,8 +22,15 @@ public:
 	virtual void start() override;
 
 private:
+	// IMGUI function
+	void GUI_Function() const;
+	std::string m_guiTitle;
 
 	Brick* m_pBrick;
+
+	BBall* m_pBall;
+
+
 
 };
 

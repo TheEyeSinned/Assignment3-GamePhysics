@@ -1,10 +1,13 @@
 #include "Brick.h"
 #include "TextureManager.h"
 #include "Util.h"
+#include <iostream>
+
+using namespace std;
 
 Brick::Brick()
 {
-	TextureManager::Instance()->load("../Assets/textures/EnemyCircle.png", "brick");
+	TextureManager::Instance()->load("../Assets/textures/Brick.png", "brick");
 
 	auto size = TextureManager::Instance()->getTextureSize("brick");
 	setWidth(size.x);
@@ -33,31 +36,18 @@ void Brick::draw()
 
 void Brick::update()
 {
-	const float deltaTime = 1.0f / 60.f;
+	//getTransform()->position = getRigidBody()->velocity;
 
-	// Normalize direction vector
-	float dirmagnitude = Util::magnitude(m_direction);
-	if (dirmagnitude > 0) {
-		getRigidBody()->acceleration = Util::normalize(m_direction) * ACCELERATION;
 
-	}
-	else if (Util::magnitude(getRigidBody()->velocity) > 0) {
-		getRigidBody()->acceleration = Util::normalize(getRigidBody()->velocity) * -ACCELERATION;
-	}
+	newPosition = getTransform()->position;
+	
+	getRigidBody()->velocity.x = oldPosition.x - newPosition.x  ;
 
-	getRigidBody()->velocity += getRigidBody()->acceleration;
+	oldPosition = getTransform()->position;
 
-	// to stop the jittering, resets acceleration and velocity once velocity is low enough
-	if (Util::magnitude(getRigidBody()->velocity) < ACCELERATION) {
-		getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
-		getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
-	}
-
-	glm::vec2 pos = getTransform()->position;
-	pos.x += getRigidBody()->velocity.x * deltaTime;
-	pos.y += getRigidBody()->velocity.y * deltaTime;
-
-	getTransform()->position = pos;
+	std::cout << "old Position" << oldPosition.x << std::endl;
+	std::cout << "new Position" << newPosition.x << std::endl;
+	std::cout << "difference" << getRigidBody()->velocity.x << std::endl;
 
 	m_checkbounds();
 }
@@ -66,20 +56,6 @@ void Brick::clean()
 {
 }
 
-void Brick::moveLeft()
-{
-	m_direction.x = -1;
-}
-
-void Brick::moveRight()
-{
-	m_direction.x = 1;
-}
-
-void Brick::stopMovingX()
-{
-	m_direction.x = 0;
-}
 
 bool Brick::isColliding(GameObject* pOther)
 {
@@ -102,24 +78,23 @@ float Brick::getDistance(GameObject* pOther)
 
 void Brick::m_checkbounds()
 {
-	if (getTransform()->position.x > Config::SCREEN_WIDTH)
+	if (getTransform()->position.x > 790)
 	{
-		getTransform()->position = glm::vec2(800.0f, getTransform()->position.y);
+		getTransform()->position = glm::vec2(790.0f, getTransform()->position.y);
 	}
 
-	if (getTransform()->position.x < 0)
+	if (getTransform()->position.x < 10)
 	{
-		getTransform()->position = glm::vec2(0.0f, getTransform()->position.y);
+		getTransform()->position = glm::vec2(10.0f, getTransform()->position.y);
 	}
 
-	if (getTransform()->position.y > Config::SCREEN_HEIGHT)
+	if (getTransform()->position.y > 590)
 	{
-		getTransform()->position = glm::vec2(getTransform()->position.x, 600.0f);
+		getTransform()->position = glm::vec2(getTransform()->position.x, 590.0f);
 	}
 
-	if (getTransform()->position.y < 0)
+	if (getTransform()->position.y < 10)
 	{
-		getTransform()->position = glm::vec2(getTransform()->position.x, 0.0f);
+		getTransform()->position = glm::vec2(getTransform()->position.x, 10.0f);
 	}
 }
-

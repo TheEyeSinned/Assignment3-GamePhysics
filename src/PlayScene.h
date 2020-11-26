@@ -20,10 +20,16 @@ public:
 	virtual void clean() override;
 	virtual void handleEvents() override;
 	virtual void start() override;
+
+	int numBullets = 10;
 private:
+	// IMGUI function
+	void GUI_Function() const;
+	std::string m_guiTitle;
+
 	const float bulletSpawnTimerDuration = 500.0f;
 	float bulletSpawnTimerStart;
-
+	
 	glm::vec2 m_mousePosition;
 
 	BulletPool* m_pPool;
@@ -32,6 +38,7 @@ private:
 
 	Button* m_pBackButton;
 	Button* m_pNextButton;
+
 
 	void SpawnBullet();
 };

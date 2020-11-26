@@ -17,6 +17,7 @@ void StartScene::draw()
 	TextureManager::Instance()->draw("background2", 400, 300, 0, 255, true);
 
 	drawDisplayList();
+
 }
 
 void StartScene::update()

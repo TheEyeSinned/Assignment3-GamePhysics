@@ -1,14 +1,14 @@
 #pragma once
-#ifndef __BRICK__
-#define __BRICK__
+#ifndef __BALL__
+#define __BALL__
 
 #include "Sprite.h"
 
-class Brick final : public Sprite
+class BBall final : public Sprite
 {
 public:
-	Brick();
-	~Brick();
+	BBall();
+	~BBall();
 
 	// Life Cycle Functions
 	virtual void draw() override;
@@ -18,13 +18,13 @@ public:
 	bool isColliding(GameObject*);
 	float getDistance(GameObject*);
 
-	glm::vec2 oldPosition = glm::vec2(0.0f, 0.0f);
-	glm::vec2 newPosition;
+
+	void m_reset();
+	int shape = 0;
 private:
 	glm::vec2 m_direction;
 	void m_checkbounds();
-
-
+	
 };
 
 #endif /* defined (__PLANE__) */

@@ -6,6 +6,10 @@
 #include "Renderer.h"
 #include "EventManager.h"
 
+// IMGUI Includes
+#include "imgui.h"
+#include "imgui_sdl.h"
+
 
 Game* Game::s_pInstance = nullptr;
 
@@ -62,6 +66,11 @@ bool Game::init(const char* title, const int x, const int y, const int width, co
 				std::cout << "renderer init failure" << std::endl;
 				return false; // render int fail
 			}
+
+			// IMGUI 
+			ImGui::CreateContext();
+			ImGuiSDL::Initialize(Renderer::Instance()->getRenderer(), width, height);
+
 
 			// Initialize Font Support
 			if (TTF_Init() == -1)
@@ -184,6 +193,9 @@ void Game::update() const
 void Game::clean() const
 {
 	std::cout << "cleaning game" << std::endl;
+
+	// Clean Up for IMGUI
+	ImGui::DestroyContext();
 
 	TTF_Quit();
 

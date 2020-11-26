@@ -3,6 +3,12 @@
 #include "EventManager.h"
 #include "Util.h"
 
+// required for IMGUI
+#include "imgui.h"
+#include "imgui_sdl.h"
+#include "Renderer.h"
+
+
 PlayScene::PlayScene()
 {
 	PlayScene::start();
@@ -17,6 +23,11 @@ void PlayScene::draw()
 {
 	TextureManager::Instance()->draw("background", 400, 300, 0, 255, true);
 	drawDisplayList();
+
+	if (EventManager::Instance().isIMGUIActive())
+	{
+		GUI_Function();
+	}
 }
 
 void PlayScene::update()
@@ -85,7 +96,7 @@ void PlayScene::start()
 	m_pPlayer = new Player();
 	addChild(m_pPlayer);
 
-	m_pPool = new BulletPool(10);
+	m_pPool = new BulletPool(numBullets);
 	for (std::vector<Bullet*>::iterator myiter = m_pPool->all.begin(); myiter != m_pPool->all.end(); myiter++) {
 		Bullet* bullet = *myiter;
 		addChild(bullet);
@@ -100,4 +111,27 @@ void PlayScene::SpawnBullet() {
 	}
 
 	bulletSpawnTimerStart = SDL_GetTicks();
+}
+
+void PlayScene::GUI_Function() const
+{
+	// Always open with a NewFrame
+	ImGui::NewFrame();
+
+	// See examples by uncommenting the following - also look at imgui_demo.cpp in the IMGUI filter
+	//ImGui::ShowDemoWindow();
+
+	ImGui::Begin("Controls", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
+
+	if (ImGui::Button("Next Scene")) {
+		TheGame::Instance()->changeSceneState(END_SCENE);
+	}
+
+	ImGui::End();
+	ImGui::EndFrame();
+
+	// Don't Remove this
+	ImGui::Render();
+	ImGuiSDL::Render(ImGui::GetDrawData());
+	ImGui::StyleColorsDark();
 }
