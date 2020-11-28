@@ -43,14 +43,15 @@ void BBall::draw()
 
 void BBall::update() {
 
-	getRigidBody()->acceleration = glm::vec2(0, 9.8 * 10);
+	getRigidBody()->acceleration = glm::vec2(0, 98);
 	float deltaTime = 1.0f / 60.0f;
+
+
+	m_checkbounds();
+
 
 	getRigidBody()->velocity = getRigidBody()->velocity + (getRigidBody()->acceleration * deltaTime);
 	getTransform()->position = getTransform()->position + getRigidBody()->velocity * deltaTime;
-	
-
-	m_checkbounds();
 }
 
 void BBall::clean()
@@ -79,26 +80,31 @@ float BBall::getDistance(GameObject* pOther)
 void BBall::m_checkbounds()
 {
 	//left and right
-	if (getTransform()->position.x >= 790)
+	if (getTransform()->position.x >= 780)
 	{
 		getRigidBody()->velocity = glm::vec2(getRigidBody()->velocity.x * -0.9f, getRigidBody()->velocity.y);
+		getTransform()->position.x = 779;
 	}
 
-	if (getTransform()->position.x <= 10)
+	if (getTransform()->position.x <= 20)
 	{
 		getRigidBody()->velocity = glm::vec2(getRigidBody()->velocity.x * -0.9f, getRigidBody()->velocity.y);
+		getTransform()->position.x = 21;
 	}
 
 
 	//up and down
-	if (getTransform()->position.y >= 590)
+	if (getTransform()->position.y >= 580)
 	{
 		getRigidBody()->velocity = glm::vec2(getRigidBody()->velocity.x, getRigidBody()->velocity.y * -0.9f);
+		getTransform()->position.y = 579;
 	}
 
-	if (getTransform()->position.y <= 10)
+	if (getTransform()->position.y <= 20)
 	{
 		getRigidBody()->velocity = glm::vec2(getRigidBody()->velocity.x, getRigidBody()->velocity.y * -0.9f);
+		getTransform()->position.y = 21;
+
 	}
 }
 

@@ -35,11 +35,11 @@ void EndScene::update()
 {
 	if (m_pBall->isColliding(m_pBrick)) {
 		if (m_pBrick->getRigidBody()->velocity.x < 0) {
-			m_pBall->getRigidBody()->velocity.x += 100;
+			m_pBall->getRigidBody()->velocity.x -= m_pBrick->getRigidBody()->velocity.x * 3;
 		}
-		
+
 		if (m_pBrick->getRigidBody()->velocity.x > 0) {
-			m_pBall->getRigidBody()->velocity.x -= 100;
+			m_pBall->getRigidBody()->velocity.x -= m_pBrick->getRigidBody()->velocity.x * 3;
 		}
 		m_pBall->getRigidBody()->velocity.y = m_pBall->getRigidBody()->velocity.y * -1.1f; //glm::vec2(-((m_pBrick->getRigidBody()->velocity.x * 0.1f ) + m_pBall->getRigidBody()->velocity.x), -((m_pBrick->getRigidBody()->velocity.x * 0.1f) + m_pBall->getRigidBody()->velocity.y));
 	}
